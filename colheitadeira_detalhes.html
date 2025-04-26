@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Colheitadeira - Sistema de Manutenção</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container-fluid">
+        <div class="row">
+            {% include 'sidebar.html' %}
+            
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4 py-4">
+                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                    <h1 class="h2">Detalhes da Colheitadeira</h1>
+                    <a href="{{ url_for('colheitadeiras') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </a>
+                </div>
+                
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                
+                <div class="card mb-4">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="card-title mb-0">{{ colheitadeira.modelo }} - {{ colheitadeira.numero_serie }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Modelo:</strong> {{ colheitadeira.modelo }}</p>
+                                <p><strong>Número de Série:</strong> {{ colheitadeira.numero_serie }}</p>
+                                <p><strong>Ano:</strong> {{ colheitadeira.ano }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Horímetro Atual:</strong> {{ colheitadeira.horimetro_atual }}</p>
+                                <p><strong>Status:</strong> 
+                                    {% if colheitadeira.status == 'Operacional' %}
+                                    <span class="badge badge-success">{{ colheitadeira.status }}</span>
+                                    {% elif colheitadeira.status == 'Em Manutenção' %}
+                                    <span class="badge badge-warning">{{ colheitadeira.status }}</span>
+                                    {% else %}
+                                    <span class="badge badge-danger">{{ colheitadeira.status }}</span>
+                                    {% endif %}
+                                </p>
+                                <p><strong>Última Manutenção:</strong> {{ colheitadeira.ultima_manutencao }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="preventivas-tab" data-toggle="tab" href="#preventivas" role="tab" aria-controls="preventivas" aria-selected="true">
+                            <i class="fas fa-tools"></i> Manutenções Preventivas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="corretivas-tab" data-toggle="tab" href="#corretivas" role="tab" aria-controls="corretivas" aria-selected="false">
+                            <i class="fas fa-exclamation-triangle"></i> Manutenções Corretivas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="oleo-tab" data-toggle="tab" href="#oleo" role="tab" aria-controls="oleo" aria-selected="false">
+                            <i class="fas fa-oil-can"></i> Trocas de Óleo
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="horimetro-tab" data-toggle="tab" href="#horimetro" role="tab" aria-controls="horimetro" aria-selected="false">
+                            <i class="fas fa-clock"></i> Registros de Horímetro
+                        </a>
+                    </li>
+                </ul>
+                
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="preventivas" role="tabpanel" aria-labelledby="preventivas-tab">
+                        <div class="card border-top-0">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrição</th>
+                                                <th>Data Agendada</th>
+                                                <th>Data Realizada</th>
+                                                <th>Horímetro</th>
+                                                <th>Técnico</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for manutencao in manutencoes_preventivas %}
+                                            <tr>
+                                                <td>{{ manutencao.descricao }}</td>
+                                                <td>{{ manutencao.data_agendada }}</td>
+                                                <td>{{ manutencao.data_realizada or '-' }}</td>
+                                                <td>{{ manutencao.horimetro }}</td>
+                                                <td>{{ manutencao.tecnico }}</td>
+                                                <td>
+                                                    {% if manutencao.status == 'Pendente' %}
+                                                    <span class="badge badge-warning">{{ manutencao.status }}</span>
+                                                    {% elif manutencao.status == 'Realizada' %}
+                                                    <span class="badge badge-success">{{ manutencao.status }}</span>
+                                                    {% else %}
+                                                    <span class="badge badge-secondary">{{ manutencao.status }}</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if not manutencoes_preventivas %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">Nenhuma manutenção preventiva registrada.</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="corretivas" role="tabpanel" aria-labelledby="corretivas-tab">
+                        <div class="card border-top-0">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Descrição</th>
+                                                <th>Data Abertura</th>
+                                                <th>Data Conclusão</th>
+                                                <th>Horímetro</th>
+                                                <th>Técnico</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for manutencao in manutencoes_corretivas %}
+                                            <tr>
+                                                <td>{{ manutencao.descricao }}</td>
+                                                <td>{{ manutencao.data_abertura }}</td>
+                                                <td>{{ manutencao.data_conclusao or '-' }}</td>
+                                                <td>{{ manutencao.horimetro }}</td>
+                                                <td>{{ manutencao.tecnico }}</td>
+                                                <td>
+                                                    {% if manutencao.status == 'Aberta' %}
+                                                    <span class="badge badge-danger">{{ manutencao.status }}</span>
+                                                    {% elif manutencao.status == 'Em Andamento' %}
+                                                    <span class="badge badge-warning">{{ manutencao.status }}</span>
+                                                    {% elif manutencao.status == 'Concluída' %}
+                                                    <span class="badge badge-success">{{ manutencao.status }}</span>
+                                                    {% else %}
+                                                    <span class="badge badge-secondary">{{ manutencao.status }}</span>
+                                                    {% endif %}
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if not manutencoes_corretivas %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">Nenhuma manutenção corretiva registrada.</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="oleo" role="tabpanel" aria-labelledby="oleo-tab">
+                        <div class="card border-top-0">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Horímetro</th>
+                                                <th>Tipo de Óleo</th>
+                                                <th>Quantidade</th>
+                                                <th>Próxima Troca</th>
+                                                <th>Técnico</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for troca in trocas_oleo %}
+                                            <tr>
+                                                <td>{{ troca.data }}</td>
+                                                <td>{{ troca.horimetro }}</td>
+                                                <td>{{ troca.tipo_oleo }}</td>
+                                                <td>{{ troca.quantidade }} L</td>
+                                                <td>{{ troca.proxima_troca }}</td>
+                                                <td>{{ troca.tecnico }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if not trocas_oleo %}
+                                            <tr>
+                                                <td colspan="6" class="text-center">Nenhuma troca de óleo registrada.</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-pane fade" id="horimetro" role="tabpanel" aria-labelledby="horimetro-tab">
+                        <div class="card border-top-0">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Data</th>
+                                                <th>Horímetro</th>
+                                                <th>Operador</th>
+                                                <th>Observações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for registro in registros_horimetro %}
+                                            <tr>
+                                                <td>{{ registro.data }}</td>
+                                                <td>{{ registro.horimetro }}</td>
+                                                <td>{{ registro.operador }}</td>
+                                                <td>{{ registro.observacoes }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if not registros_horimetro %}
+                                            <tr>
+                                                <td colspan="4" class="text-center">Nenhum registro de horímetro encontrado.</td>
+                                            </tr>
+                                            {% endif %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

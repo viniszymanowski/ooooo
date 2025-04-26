@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_dashboard"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="@string/dashboard" />
+        <item
+            android:id="@+id/nav_colheitadeiras"
+            android:icon="@android:drawable/ic_menu_slideshow"
+            android:title="@string/colheitadeiras" />
+        <item
+            android:id="@+id/nav_manutencoes_preventivas"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/preventivas" />
+        <item
+            android:id="@+id/nav_manutencoes_corretivas"
+            android:icon="@android:drawable/ic_menu_edit"
+            android:title="@string/corretivas" />
+        <item
+            android:id="@+id/nav_trocas_oleo"
+            android:icon="@android:drawable/ic_menu_rotate"
+            android:title="@string/trocas_oleo" />
+        <item
+            android:id="@+id/nav_horimetro"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="@string/horimetro" />
+        <item
+            android:id="@+id/nav_estoque"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="@string/estoque" />
+        <item
+            android:id="@+id/nav_relatorios"
+            android:icon="@android:drawable/ic_menu_report_image"
+            android:title="@string/relatorios" />
+    </group>
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@android:drawable/ic_menu_close_clear_cancel"
+                android:title="@string/logout" />
+        </menu>
+    </item>
+</menu>

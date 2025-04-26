@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/john_deere_green</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/john_deere_yellow</item>
+        <item name="android:textColorPrimary">@color/text_primary</item>
+        <item name="android:textColorSecondary">@color/text_secondary</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="materialButtonStyle">@style/JohnDeereButton</item>
+        <item name="cardViewStyle">@style/JohnDeereCardView</item>
+    </style>
+    
+    <style name="JohnDeereButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@color/john_deere_green</item>
+        <item name="android:textColor">@color/text_white</item>
+        <item name="cornerRadius">8dp</item>
+    </style>
+    
+    <style name="JohnDeereCardView" parent="Widget.MaterialComponents.CardView">
+        <item name="cardBackgroundColor">@color/card_background</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">4dp</item>
+        <item name="contentPadding">16dp</item>
+    </style>
+    
+    <style name="LoginTheme" parent="AppTheme">
+        <item name="android:windowBackground">@color/john_deere_green</item>
+    </style>
+</resources>

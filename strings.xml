@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sistema de Manutenção de Colheitadeiras</string>
+    <string name="app_title">Sistema de Controle de Manutenção</string>
+    <string name="app_subtitle">Colheitadeiras John Deere</string>
+    <string name="logo_description">Logo John Deere</string>
+    <string name="username_hint">Usuário</string>
+    <string name="password_hint">Senha</string>
+    <string name="login_button">Entrar</string>
+    <string name="logout">Sair</string>
+    <string name="dashboard">Painel de Controle</string>
+    <string name="colheitadeiras">Colheitadeiras</string>
+    <string name="manutencoes">Manutenções</string>
+    <string name="preventivas">Preventivas</string>
+    <string name="corretivas">Corretivas</string>
+    <string name="trocas_oleo">Trocas de Óleo</string>
+    <string name="horimetro">Horímetro</string>
+    <string name="estoque">Estoque</string>
+    <string name="relatorios">Relatórios</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="editar">Editar</string>
+    <string name="excluir">Excluir</string>
+    <string name="salvar">Salvar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="confirmar">Confirmar</string>
+    <string name="erro_login">Usuário ou senha inválidos</string>
+    <string name="erro_conexao">Erro de conexão com o servidor</string>
+    <string name="sincronizando">Sincronizando dados...</string>
+    <string name="sincronizado">Dados sincronizados com sucesso</string>
+</resources>
